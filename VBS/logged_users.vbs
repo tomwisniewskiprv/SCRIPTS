@@ -3,7 +3,7 @@
 ' github.com/tomwisniewskiprv/scripts/vbs
 '
 ' Display users logged @ this machine
-
+' -------------------------------------------------------'
 
 dim users_list
 user_number = 1

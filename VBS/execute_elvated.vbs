@@ -2,6 +2,7 @@
 ' execute_elevated.vbs
 ' github.com/tomwisniewskiprv/scripts/vbs
 
+' -------------------------------------------------------'
 'TODO'
 
 Set objShell = CreateObject("Shell.Application")
