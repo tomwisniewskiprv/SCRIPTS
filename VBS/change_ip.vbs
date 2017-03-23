@@ -90,7 +90,6 @@ Loop
 
 ' Get new IP adress
 ' -----------------'
-
 Do While infinite = 0
 	strNewIP = InputBox("Type new IP adress:" & vbNewLine & "format:" & vbNewLine & "xxx.xxx.xxx.xxx" , "New IP for " & strAdapterName)
 	 
@@ -143,12 +142,6 @@ If result = vbYes Then
 					  
 	
 	WshShell.run cmdNetshCommand, 0, True
-	
-	If isChangeSuccess = 0 Then
-		Wscript.Echo "Success !"
-	Else
-		Wscript.Echo "Something went wrong!"
-	End If
 
 Else
 	Wscript.Echo "Changes terminated."
