@@ -5,6 +5,18 @@
 ' Script can be used to change IP adress of network adapters
 ' ----------------------------------------------------------'
 
+' Script requires elevated privileges
+' -----------------------------------'
+Set WshShell = WScript.CreateObject("WScript.Shell")	' command shell
+
+If WScript.Arguments.Length = 0 Then
+	Set ObjShell = CreateObject("Shell.Application")
+	ObjShell.ShellExecute "wscript.exe" , """" & WScript.ScriptFullName & """ RunAsAdministrator", , "runas", 1
+	WScript.Quit
+End if
+
+' Variables
+' ---------'
 Dim strNewIP, strNewMask, strNewGateway ' new values
 
 Dim strNetConnectionList	' for inputbox
@@ -67,7 +79,7 @@ Do While infinite = 0
 Loop 
 
 
-' create regex query
+' Create regex query
 ' -------------------'
  Set re = New RegExp
  With re
@@ -78,7 +90,6 @@ Loop
 
 ' Get new IP adress
 ' -----------------'
-' 192.168.77.130
 
 Do While infinite = 0
 	strNewIP = InputBox("Type new IP adress:" & vbNewLine & "format:" & vbNewLine & "xxx.xxx.xxx.xxx" , "New IP for " & strAdapterName)
@@ -126,13 +137,13 @@ msg = "Please confirm following changes:" & vbNewLine & _
 
 result = msgBox(msg, vbYesNo+vbInformation, "Confirm changes:")
 
-If result = vbOk Then
-	cmdNetshCommand = "netsh interface ip set address name=" & chr(34) & strAdapterName & chr(34) & " static " & _
+If result = vbYes Then
+	cmdNetshCommand = "cmd /c netsh interface ip set address name=" & chr(34) & strAdapterName & chr(34) & " static " & _
 					  strNewIP & chr(32) & strNewMask & chr(32) & strNewGateway & chr(32) & "1"
 					  
-	Set objShell = WScript.CreateObject("WScript.Shell")
 	
-	isChangeSuccess = objShell.run "cmd /c" & cmdNetshCommand, 0, True
+	WshShell.run cmdNetshCommand, 0, True
+	
 	If isChangeSuccess = 0 Then
 		Wscript.Echo "Success !"
 	Else
@@ -143,6 +154,4 @@ Else
 	Wscript.Echo "Changes terminated."
 	
 End If
-
-'netsh interface ip set address name="Virtual Loopback" static 123.123.123.123 255.255.255.0 123.123.123.1 1
 
