@@ -85,14 +85,19 @@ Loop
  With re
      .Pattern    = "^(\d{1,2}|[01]\d{2}|2[0-4]\d|25[0-5])\.(\d{1,2}|[01]\d{2}|2[0-4]\d|25[0-5])\.(\d{1,2}|[01]\d{2}|2[0-4]\d|25[0-5])\.(\d{1,2}|[01]\d{2}|2[0-4]\d|25[0-5])$"
      .IgnoreCase = False
-     .Global     = False
+     .Global     = True
  End With
 
 ' Get new IP adress
 ' -----------------'
 Do While infinite = 0
 	strNewIP = InputBox("Type new IP adress:" & vbNewLine & "format:" & vbNewLine & "xxx.xxx.xxx.xxx" , "New IP for " & strAdapterName)
-	 
+
+	If strNewIP = "" Then 		
+		Wscript.Echo "Quiting!"
+		Wscript.Quit
+	End If
+	
 	If re.Test( strNewIP ) Then
 		Wscript.echo (strNewIP & " is a valid IP adress.")
 		Exit Do
@@ -105,8 +110,13 @@ Loop
 ' -----------------'
 Do While infinite = 0
 	strNewMask = InputBox("Type new sub mask:" & vbNewLine & "format:" & vbNewLine & "xxx.xxx.xxx.xxx" , "New sub mask for " & strAdapterName)
-	 
-	If re.Test( strNewIP ) Then
+	
+	If strNewMask = "" Then 		
+		Wscript.Echo "Quiting!"
+		Wscript.Quit
+	End If
+	
+	If re.Test( strNewMask ) Then
 		Wscript.echo (strNewMask & " is a valid submask.")
 		Exit Do
 	Else
@@ -118,8 +128,13 @@ Loop
 ' -----------------'
 Do While infinite = 0
 	strNewGateway = InputBox("Type new gateway:" & vbNewLine & "format:" & vbNewLine & "xxx.xxx.xxx.xxx" , "New gateway for " & strAdapterName)
+	
+	If strNewGateway = "" Then 		
+		Wscript.Echo "Quiting!"
+		Wscript.Quit
+	End If
 	 
-	If re.Test( strNewIP ) Then
+	If re.Test( strNewGateway ) Then
 		Wscript.echo (strNewGateway & " is a valid gateway.")
 		Exit Do
 	Else
@@ -139,8 +154,8 @@ result = msgBox(msg, vbYesNo+vbInformation, "Confirm changes:")
 If result = vbYes Then
 	cmdNetshCommand = "cmd /c netsh interface ip set address name=" & chr(34) & strAdapterName & chr(34) & " static " & _
 					  strNewIP & chr(32) & strNewMask & chr(32) & strNewGateway & chr(32) & "1"
-					  
 	
+	' Execute command
 	WshShell.run cmdNetshCommand, 0, True
 
 Else
