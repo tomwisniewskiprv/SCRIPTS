@@ -61,6 +61,11 @@ Do While infinite = 0
 
 	iUserInput = Inputbox(strNetConnectionList , "Choose network adapter :")
 	
+	If iUserInput = "" Then 		
+		Wscript.Echo "Quiting!"
+		Wscript.Quit
+	End If
+	
 	If isNumeric(iUserInput) then
 		iUserInput = CInt(iUserInput)
 		
