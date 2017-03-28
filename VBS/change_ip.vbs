@@ -7,7 +7,8 @@
 
 ' Script requires elevated privileges
 ' -----------------------------------'
-Set WshShell = WScript.CreateObject("WScript.Shell")	' command shell
+Set WshShellA = WScript.CreateObject("WScript.Shell")	' command shell
+Set WshShellB = WScript.CreateObject("WScript.Shell")	' command shell
 
 If WScript.Arguments.Length = 0 Then
 	Set ObjShell = CreateObject("Shell.Application")
@@ -149,19 +150,30 @@ Loop
 
 ' Pass new values to command line & and execute changes
 ' -----------------------------------------------------'
+msg = "Would you like to create backup file ?"
+
+backup = msgBox(msg, vbYesNo+vbInformation, "Backup:")
+
+If backup = vbYes Then
+	cmdBackUp = "cmd /c netsh dump > backup.txt"	
+	WshShellA.run cmdBackUp, 0 , True
+	WScript.Echo "Backup has been created in file backup.txt" & vbNewLine & "Use comannd 'netsh exec backup.txt' to restore previous settings."
+End If
+
 msg = "Please confirm following changes:" & vbNewLine & _
-	  "	IP  : " & strNewIP & vbNewLine & _
-	  "	Mask: " & strNewMask & vbNewLine & _
-	  "	Gate: " & strNewGateway & vbNewLine
+	  "IP :"   & vbTab & strNewIP & vbNewLine & _
+	  "Mask :" & vbTab & strNewMask & vbNewLine & _
+	  "Gate :" & vbTab & strNewGateway & vbNewLine
 
 result = msgBox(msg, vbYesNo+vbInformation, "Confirm changes:")
 
 If result = vbYes Then
-	cmdNetshCommand = "cmd /c netsh interface ip set address name=" & chr(34) & strAdapterName & chr(34) & " static " & _
+	cmdNetshCommand = "cmd /c netsh interface ip set address name=" & chr(34) & _ 
+					  strAdapterName & chr(34) & " static " & _
 					  strNewIP & chr(32) & strNewMask & chr(32) & strNewGateway & chr(32) & "1"
 	
 	' Execute command
-	WshShell.run cmdNetshCommand, 0, True
+	WshShellB.run cmdNetshCommand, 0, True
 
 Else
 	Wscript.Echo "Changes terminated."
