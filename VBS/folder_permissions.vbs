@@ -160,7 +160,7 @@ Function changePermissionsForFolder(strFolder , strSelectedUser, arrUsers)
             intRunError = WshShellA.Run(strCommand, 2, True)
             strError = intRunError & chr(32) & User & chr(32) & strFolder
             If intRunError <> 0 Then
-                arrErros.add(strError)
+                arrErrors.add(strError)
             End If
         End If
     Next
