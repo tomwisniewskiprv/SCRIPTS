@@ -1,4 +1,4 @@
-ï»¿' vbs
+' vbs
 ' folder_permissions.vbs
 ' github.com/tomwisniewskiprv/scripts/vbs
 '
@@ -38,7 +38,7 @@ Set colItems = objWMIService.ExecQuery(strWQLQueryUserList)
 For Each objItem In colItems
 
 	' Polish version of Default Account and Guest Account, skipp these
-    If objItem.name <> "Konto domyÅ›lne" and objItem.name <> "GoÅ›Ä‡" and objItem.name <> "Administrator" Then
+    If objItem.name <> "Konto domyœlne" and objItem.name <> "Goœæ" and objItem.name <> "Administrator" Then
         strUserList = strUserList & iUserNumber & ") " & " " & objItem.Name & vbCr
         iUserNumber = iUserNumber + 1
 
@@ -169,17 +169,18 @@ Function changePermissionsForFolder(strFolder , strSelectedUser, arrUsers)
     intRunError = WshShellA.Run(strCommand, 2, True)
     If intRunError <> 0 Then
         strError = intRunError & chr(32) & User & chr(32) & strFolder
-        arrErros.add(strError)
+        arrErrors.add(strError)
     End If
 
 
 	If arrErrors.Count <> 0 Then
-        strErrorMsg = ""
-        For Each err in arrErrors
-            strErrorMsg = strErrorMsg + vbNewLine + err
-        Next
+        ' Dim strErrorMsg
+        ' For Each err in arrErrors
+            ' strErrorMsg = strErrorMsg + vbNewLine + err
+        ' Next
 
-		Wscript.Echo "Error assigning permissions " & strErrorMsg
+		' Wscript.Echo "Error assigning permissions " & strErrorMsg
+		Wscript.Echo join(arrErrors.toArray(), " ||| ")
 	End If
 
     changePermissionsForFolder = arrErrors.Count
