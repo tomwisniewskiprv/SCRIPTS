@@ -1,4 +1,4 @@
-' vbs
+ï»¿' vbs
 ' folder_permissions.vbs
 ' github.com/tomwisniewskiprv/scripts/vbs
 '
@@ -38,7 +38,7 @@ Set colItems = objWMIService.ExecQuery(strWQLQueryUserList)
 For Each objItem In colItems
 
 	' Polish version of Default Account and Guest Account, skipp these
-    If objItem.name <> "Konto domyœlne" and objItem.name <> "Goœæ" and objItem.name <> "Administrator" Then
+    If objItem.name <> "Konto domyÅ›lne" and objItem.name <> "GoÅ›Ä‡" and objItem.name <> "Administrator" Then
         strUserList = strUserList & iUserNumber & ") " & " " & objItem.Name & vbCr
         iUserNumber = iUserNumber + 1
 
