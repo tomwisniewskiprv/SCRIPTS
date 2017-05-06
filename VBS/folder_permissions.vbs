@@ -172,15 +172,8 @@ Function changePermissionsForFolder(strFolder , strSelectedUser, arrUsers)
         arrErrors.add(strError)
     End If
 
-
 	If arrErrors.Count <> 0 Then
-        ' Dim strErrorMsg
-        ' For Each err in arrErrors
-            ' strErrorMsg = strErrorMsg + vbNewLine + err
-        ' Next
-
-		' Wscript.Echo "Error assigning permissions " & strErrorMsg
-		Wscript.Echo join(arrErrors.toArray(), " ||| ")
+		Wscript.Echo join(arrErrors.toArray(), " ; ")
 	End If
 
     changePermissionsForFolder = arrErrors.Count
