@@ -16,3 +16,10 @@ Next
 For Each strElement in strDynamicArray
 	Wscript.Echo strElement
 Next
+
+' czek this out 
+Set arrUsers = CreateObject("System.Collections.ArrayList")
+For Each User in objGroupU.Members
+    arrUsers.add(User.Name)
+    Wscript.Echo User.Name 
+Next
